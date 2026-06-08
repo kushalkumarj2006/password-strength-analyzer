@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Analyzer | Professional Edition</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN for visual entropy representation -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Lodash CDN for debouncing and utility functions -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Password Strength Analyzer</h1>
+            <p class="subtitle">Powered by <strong>xato-net-10-million-passwords-100000.txt</strong> (100,000 real breached passwords)</p>
+        </header>
+
+        <div id="dbStatus" class="status-banner loading">
+            <span class="spinner"></span> Loading breach database...
+        </div>
+
+        <div class="input-group">
+            <label for="passwordInput">Enter Password to Analyze</label>
+            <div class="password-input-wrapper">
+                <input type="password" id="passwordInput" placeholder="Type or paste a password...">
+                <button class="toggle-password" id="togglePasswordBtn" type="button">👁️</button>
+            </div>
+        </div>
+
+        <div class="strength-meter">
+            <div class="strength-bar">
+                <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <div class="strength-text" id="strengthText">Enter a password to begin</div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-value" id="lengthStat">0</div>
+                <div class="stat-label">Characters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="entropyStat">0</div>
+                <div class="stat-label">Entropy (bits)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="crackTimeStat">0s</div>
+                <div class="stat-label">Crack Time (GPU)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="breachedCount">0</div>
+                <div class="stat-label">Breached DB Size</div>
+            </div>
+        </div>
+
+        <!-- Entropy visualization canvas -->
+        <div class="chart-container" id="chartContainer" style="display: none;">
+            <canvas id="entropyChart" width="400" height="80"></canvas>
+        </div>
+
+        <div class="criteria">
+            <h3>📋 Password Criteria</h3>
+            <ul class="criteria-list" id="criteriaList">
+                <li id="critLength">❌ At least 8 characters</li>
+                <li id="critLower">❌ Contains lowercase letters</li>
+                <li id="critUpper">❌ Contains uppercase letters</li>
+                <li id="critDigit">❌ Contains numbers</li>
+                <li id="critSpecial">❌ Contains special characters (!@#$%)</li>
+                <li id="critPattern">❌ No common patterns (123, abc, qwerty)</li>
+            </ul>
+        </div>
+
+        <div id="breachWarning" class="breach-warning" style="display: none;">
+            <h3>⚠️ BREACH ALERT!</h3>
+            <p id="breachMessage"></p>
+        </div>
+
+        <div id="alternatives" class="alternatives" style="display: none;">
+            <h3>💡 Stronger Password Alternatives</h3>
+            <div id="alternativesList"></div>
+        </div>
+
+        <div class="button-group">
+            <button id="analyzeBtn">🔍 Analyze</button>
+            <button id="clearBtn" class="clear-btn">🗑️ Clear</button>
+        </div>
+
+        <footer>
+            <p>🔒 Passwords never leave your browser. All analysis done locally.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/wordlist.js"></script>
+    <script src="js/strength.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
